@@ -22,7 +22,6 @@ main(void)
   mpinit();        // collect info about this machine
   lapicinit();
   seginit();       // set up segments
-  cprintf("\ncpu%d: starting xv6\n\n", cpu->id);
   picinit();       // interrupt controller
   ioapicinit();    // another interrupt controller
   consoleinit();   // I/O devices & their interrupts
@@ -56,9 +55,12 @@ static void
 mpmain(void)
 {
   cprintf("cpu%d: starting\n", cpu->id);
+if(cpu->id == 1){
+  cprintf("CPS 3250 printing in kernel space\n");
+}
   idtinit();       // load idt register
   xchg(&cpu->started, 1); // tell startothers() we're up
-  scheduler();     // start running processes
+  scheduler(); 
 }
 
 pde_t entrypgdir[];  // For entry.S
